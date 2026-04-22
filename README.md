@@ -49,7 +49,7 @@ The server resolves and verifies DIDs through the public Archon Gatekeeper REST 
 
 ```bash
 git clone https://github.com/archetech/materna-link-mcp.git
-cd maternalink-mcp
+cd materna-link-mcp
 npm install
 npm run build
 ```
