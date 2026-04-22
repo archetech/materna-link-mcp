@@ -10,6 +10,7 @@
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { ListToolsRequestSchema, CallToolRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import express from "express";
 import { identityService } from "./identity-service.js";
 
@@ -125,9 +126,9 @@ app.get("/sse", async (req, res) => {
     { capabilities: { tools: {} } }
   );
 
-  server.setRequestHandler({ method: "tools/list" } as any, async () => ({ tools: TOOLS }));
-  server.setRequestHandler({ method: "tools/call" } as any, async (request: any) => {
-    const result = await handleToolCall(request.params.name, request.params.arguments);
+  server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: TOOLS }));
+  server.setRequestHandler(CallToolRequestSchema, async (request) => {
+    const result = await handleToolCall(request.params.name, request.params.arguments ?? {});
     return result;
   });
 
