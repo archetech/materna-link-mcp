@@ -1,0 +1,28 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://www.w3.org/ns/credentials/examples/v2"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "CaregiverAuthorization"
+  ],
+  "issuer": "did:cid:bagaaieraxxohaxwmj2w2razfhidddxx6p565vqfg2igu5r6ht2mqutabxi3q",
+  "credentialSubject": {
+    "id": "did:cid:bagaaieranqsh5fcjlnh2oq7zxxcjobt7qsyoar37llpbqnplzw5qcc324qia",
+    "credentialSchema": {
+      "id": "did:cid:caregiver-auth.schema.v1",
+      "type": "JsonSchema"
+    },
+    "caregiverName": "Dr. Alice Chen",
+    "authorizedPatient": "did:cid:bagaaierapfwstdqd37o6m35ws2gnzhrnnl2wsrtze6nddewpmxq27zjtjg7a",
+    "scope": [
+      "pregnancy:read",
+      "ultrasound:order",
+      "lab:read"
+    ],
+    "department": "Maternal-Fetal Medicine",
+    "validFrom": "2025-04-01T00:00:00Z",
+    "validUntil": "2025-12-31T23:59:59Z"
+  }
+}

@@ -1,4 +1,7 @@
 node_modules/
 dist/
 .env
-*.log__pycache__/
+*.log
+__pycache__/
+.mnemonic
+wallets/*/wallet.json

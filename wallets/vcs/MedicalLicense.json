@@ -1,0 +1,29 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://www.w3.org/ns/credentials/examples/v2"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "MedicalLicense"
+  ],
+  "issuer": "did:cid:bagaaieraxxohaxwmj2w2razfhidddxx6p565vqfg2igu5r6ht2mqutabxi3q",
+  "credentialSubject": {
+    "id": "did:cid:bagaaieranqsh5fcjlnh2oq7zxxcjobt7qsyoar37llpbqnplzw5qcc324qia",
+    "credentialSchema": {
+      "id": "did:cid:medical-license.schema.v1",
+      "type": "JsonSchema"
+    },
+    "licenseNumber": "RN-2025-CA-00142",
+    "name": "Dr. Alice Chen",
+    "specialty": "Maternal-Fetal Medicine",
+    "issuingAuthority": "Valley Vista Medical Center",
+    "issueDate": "2025-01-15",
+    "expiryDate": "2027-01-15",
+    "scope": [
+      "prenatal-care",
+      "labor-delivery",
+      "postpartum-monitoring"
+    ]
+  }
+}
