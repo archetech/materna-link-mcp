@@ -1,29 +1,35 @@
 # MaternaLink MCP — Roleplay Scenario
 
-**Objective:** Demonstrate Archon SSI capabilities via interactive roleplay
-using real DID wallets, challenge/response, and the MaternaLink MCP server.
+**Objective:** Demonstrate Archon SSI capabilities via interactive roleplay using real DID wallets, challenge/response, and the MaternaLink MCP server.
+
+**Important:** All human-playable roles (Dr. Alice Chen, Sofia Martinez, Valley Vista Medical) live in the **same wallet**. Import the single mnemonic, then switch IDs with `archon use-id`. Eva AI Assistant (`eva-ai`) is the AI agent and lives in a separate wallet.
 
 ---
 
-## Available Wallets & Identities
+## Wallet 1: Genitrix Demo Wallet (archon.technology gatekeeper)
 
-### Wallet 1: Genitrix (archon.social gatekeeper)
+**Location:** `~/wallets/genitrix`  
+**Passphrase:** in .env (AI agent only — never output raw value)  
+**Gatekeeper:** https://archon.technology  
+**IDs (all demo-only, not the real GenitriX admin):**
+
 ```
-Location:   ~/wallets/genitrix
-Gatekeeper:  https://archon.technology
-IDs:
-  • GenitriX      → did:cid:bagaaieraxdxq4fm2kjh6yqjxjor3t2idczkmxd4v7in4u353fa6m6sms2pnq
-  • Nurse_Demo    → did:cid:bagaaieraywvvtun2bv5fi4lp7y4kcdk7kvhlcswu6r5hjeoah5wp7wzbcjhq
-  • Patient_Demo  → did:cid:bagaaieray2f67vmn3thdyvrduezo27ql4tiywtbc4bzkscpmruxusqxxf6ia
+  • Alice_Chen          → did:cid:bagaaieraq6saevblxlqaalolq7bjfhtzpgeb4bdtbi3wj6ubv3tlutap2d5a
+  • Sofia_Martinez      → did:cid:bagaaieraejvkvjhneipzdl5wsxhdw74qxx4qpn4p3okatgdcfbrm5bkwi2sa
+  • ValleyVista_Medical → did:cid:bagaaierab72x6xswxll4d57o5mig2is5nywconwyqo6fb6vrbrcms356mgzq
 ```
 
-### Wallet 2: Nursing Demo (flaxlap.local gatekeeper)
+## Wallet 2: Eva AI (flaxlap.local gatekeeper)
+
+**Location:** `~/wallets/nursing_demo`  
+**Passphrase:** in .env  
+**Gatekeeper:** http://flaxlap.local:4222
+
 ```
-Location:   ~/wallets/nursing_demo
-Gatekeeper:  http://flaxlap.local:4222
-IDs:
-  • eva-ai  → did:cid:bagaaiera4jmdvjwlqffmhgofvf46izjpqvmmepimeg7eoclfrmc5nc2zgt4a
+  • eva-ai → did:cid:bagaaiera4jmdvjwlqffmhgofvf46izjpqvmmepimeg7eoclfrmc5nc2zgt4a
 ```
+
+---
 
 ## Role Mapping
 
@@ -31,18 +37,63 @@ IDs:
 ┌─────────────────────────────────────────────────────────┐
 │                   ROLEPLAY SCENARIO                      │
 │                                                          │
-|  👩‍⚕️ Dr. Alice Chen (Nurse)         🤖 Eva AI Assistant   |
-|  Identity: Nurse_Demo              Identity: eva-ai     |
-│  Wallet:   ~/wallets/genitrix       Wallet: nursing_demo │
-│  Role:     Human (you play)         Role: AI Assistant   │
+│  👩‍⚕️ Dr. Alice Chen (Nurse/Drs.)   🤖 Eva AI Assistant  │
+│  Identity: Alice_Chen              Identity: eva-ai       │
+│  Wallet:   genitrix (demo)          Wallet: nursing_demo   │
+│  Role:     Human (you play)         Role: AI Agent       │
 │                                                          │
-│  🤰 Patient Maria                   🏥 Hospital Admin   │
-│  Identity: Patient_Demo             Identity: GenitriX    │
-│  Wallet:   ~/wallets/genitrix       Wallet: genitrix     │
-│  Role:     Human (you play)         Role: Institutional   │
+│  🤰 Sofia Martinez (Patient)         🏥 Valley Vista Med │
+│  Identity: Sofia_Martinez          Identity: ValleyVista│
+│  Wallet:   genitrix (demo)          Wallet: genitrix     │
+│  Role:     Human (you play)         Role: Institution    │
 │                                                          │
 └─────────────────────────────────────────────────────────┘
 ```
+
+| Role | Identity | Wallet | Played By |
+|------|----------|--------|-----------|
+| Dr. Alice Chen | Alice_Chen | genitrix | **Human (you)** |
+| Sofia Martinez (patient) | Sofia_Martinez | genitrix | **Human (you)** |
+| Valley Vista Medical Center | ValleyVista_Medical | genitrix | **Human (you)** |
+| Eva AI Assistant | eva-ai | nursing_demo | **Eva (AI agent)** |
+
+---
+
+## Pre-Issued Verifiable Credentials (all live)
+
+| # | VC Type | Issuer (ID) | Subject (Holder) | VC DID |
+|---|---------|-------------|------------------|--------|
+| 1 | **MedicalLicense** | ValleyVista_Medical | Alice_Chen | did:cid:bagaaierabggbc4nnxtxyxbdv7dw2yn7imwpzjehfkmboaa3b7e6r62pt3bna |
+| 2 | **PregnancyRecord** | ValleyVista_Medical | Sofia_Martinez | did:cid:bagaaierayuobdsjc54a3e6h3vvzpxer6ezbijdt6fzqzczj7x2hk3vzt6e7a |
+| 3 | **CaregiverAuthorization** | ValleyVista_Medical | Alice_Chen | did:cid:bagaaieraboatf42ks4rr727ndv2gvbwc35mvvnxvsrtqf7g7vsga77lyforq |
+| 4 | **PatientConsent** | Sofia_Martinez | Sofia_Martinez | did:cid:bagaaierapewo2au3jzoqtuorthmbulivk26bqvuhj3wkhyrygbmhfexe34fa |
+
+### VC Claims Summary
+
+**1. MedicalLicense (Dr. Alice Chen)**
+- License #: RN-2025-CA-00142
+- Specialty: Maternal-Fetal Medicine
+- Authority: Valley Vista Medical Center
+- Scope: prenatal-care, labor-delivery, postpartum-monitoring
+- Valid: 2025-01-15 → 2027-01-15
+
+**2. PregnancyRecord (Sofia Martinez)**
+- Gestational Age: 32 weeks
+- EDD: 2025-07-15
+- Blood Type: A+, High Risk: No
+- Allergies: penicillin, latex
+- Care Plan: biweekly ultrasound, GD screening
+
+**3. CaregiverAuthorization (Alice → Sofia)**
+- Scope: pregnancy:read, ultrasound:order, lab:read
+- Dept: Maternal-Fetal Medicine
+- Valid: 2025-04-01 → 2025-12-31
+
+**4. PatientConsent (Sofia → Alice)**
+- Scope: pregnancy:read, lab:read, ultrasound:order
+- Exclusions: psychiatric, substance-abuse, family-history
+- Consent Date: 2025-04-20
+- Revocable: Yes
 
 ---
 
@@ -51,121 +102,91 @@ IDs:
 ### Phase 1: Identity Verification (Challenge/Response)
 
 ```
-Dr. Alice ──▶ "I need to verify my credentials before accessing records"
-           ──▶ creates challenge from Nurse_Demo wallet
-           ──▶ shares challenge DID with Hermes (eva-ai)
-
-Hermes    ──▶ receives challenge DID
-           ──▶ verify-response against eva-ai wallet
-           ──▶ confirms Alice's identity
-           ──▶ calls MaternaLink MCP: verify-identity(Nurse_Demo DID)
+You (as Alice_Chen) → archon create-challenge
+Eva (eva-ai)          → archon verify-response <challenge_did>
+Eva                   → MCP verify-identity(Alice_Chen DID)
 ```
 
 ### Phase 2: Patient Verification
 
 ```
-Dr. Alice ──▶ "Please verify Maria's identity for prenatal check-in"
-           ──▶ provides Patient_Demo DID
-
-Hermes    ──▶ calls MaternaLink MCP: verify-patient-identity(Patient_Demo DID)
-           ──▶ returns verified patient record with timestamp
+You provides Sofia_Martinez DID
+Eva → MCP verify-patient-identity(Sofia_Martinez DID)
 ```
 
 ### Phase 3: Caregiver Authorization
 
 ```
-Dr. Alice ──▶ "Am I authorized to access Maria's pregnancy records?"
-           ──▶ provides both DIDs + scope: "pregnancy:read"
-
-Hermes    ──▶ calls MaternaLink MCP: verify-caregiver(
-                 patientDid=Patient_Demo,
-                 caregiverDid=Nurse_Demo,
-                 scope="pregnancy:read"
-               )
-           ──▶ returns authorization result
+You ask: "Am I authorized to access Sofia's pregnancy records?"
+Eva → MCP verify-caregiver(
+        patientDid=Sofia_Martinez,
+        caregiverDid=Alice_Chen,
+        scope="pregnancy:read"
+      )
 ```
 
-### Phase 4: Credential Issuance (VC Flow)
+### Phase 4: Credential Verification
 
 ```
-Hospital Admin (GenitriX) ──▶ "Issue a nursing credential to Dr. Alice"
-                            ──▶ bind-credential(nurse_schema, Nurse_Demo)
-                            ──▶ issue-credential(bound_vc_file)
-
-Dr. Alice  ──▶ accept-credential(vc_did)
-            ──▶ "Show me my credentials"
-            ──▶ list-credentials
-
-Hermes    ──▶ calls MaternaLink MCP: verify-credential(vc_json)
-           ──▶ confirms credential is structurally valid
+Eva → verify MedicalLicense VC (Alice_Chen)
+Eva → verify CaregiverAuthorization VC (Alice_Chen)
+Eva → verify PregnancyRecord VC (Sofia_Martinez)
 ```
 
 ### Phase 5: Consent & Selective Disclosure
 
 ```
-Patient Maria ──▶ "I want to authorize Dr. Alice but only for pregnancy:read"
-               ──▶ records consent in wallet (or VRC delegation)
-
-Hermes    ──▶ calls verify-consent (if wireframe completed)
-           ──▶ confirms scope-limited authorization
-           ──▶ Dr. Alice can access pregnancy data but NOT full medical history
+You (as Sofia) → present PatientConsent VC
+Eva → MCP verify-consent
+→ Confirms exclusions NOT in scope
 ```
 
 ---
 
 ## Commands Cheat Sheet (for you, the human)
 
-### Switch identity in Genitrix wallet:
+You only need **one wallet** (genitrix). Switch identities as you play each role.
+
+### Switch identity in genitrix wallet:
 ```bash
 cd ~/wallets/genitrix && source .env
 
-# Switch to Nurse_Demo
-archon use-id Nurse_Demo
+# Switch to Dr. Alice Chen
+archon use-id Alice_Chen
 
-# Switch to Patient_Demo  
-archon use-id Patient_Demo
+# Switch to Sofia Martinez
+archon use-id Sofia_Martinez
 
-# Switch to GenitriX (admin)
-archon use-id GenitriX
+# Switch to Valley Vista Medical
+archon use-id ValleyVista_Medical
 
-# Create challenge (as nurse)
+# Create challenge (as Dr. Alice)
 archon create-challenge
 
 # Resolve any DID
 archon resolve-did did:cid:...
+
+# List your credentials
+archon list-credentials
 ```
 
-### Nursing demo wallet:
-```bash
-cd ~/wallets/nursing_demo && source .env
+---
 
-# eva-ai is the only ID
-archon resolve-id
-archon verify-response <challenge_did>
-```
-
-### Switch identity in nursing_demo wallet:
-```bash
-cd ~/wallets/nursing_demo && source .env
-# eva-ai is the only ID
-archon resolve-id
-archon verify-response <challenge_did>
-```
-
-## What I (Hermes) Will Do During Roleplay
+## What Eva (AI Agent) Will Do During Roleplay
 
 1. **Listen** for your in-character messages
-2. **Execute MCP calls** against the MaternaLink server when you request verification
-3. **Run keymaster commands** on the eva-ai wallet for challenge/response
+2. **Run keymaster commands** on the `eva-ai` wallet for challenge/response
+3. **Execute MCP calls** against the MaternaLink server when you request verification
 4. **Narrate** results in a clinical-friendly tone
 5. **Track the scenario state** so we don't lose context
 
 ## What You Do
 
-1. **Play Dr. Alice** (or Patient Maria, or both — switch as needed)
-2. **Tell me what you want to verify/access/issue**
-3. **Share challenge DIDs** when you create them
-4. **Guide the narrative** — you're the human in the loop
+1. **Play Dr. Alice** — create challenges, show MedicalLicense
+2. **Play Sofia** — show PatientConsent, grant/revoke scope
+3. **Play Valley Vista** — if you need to issue or view institutional VCs
+4. **Share challenge DIDs** when you create them
+5. **Guide the narrative** — you're the human in the loop
 
 ---
 
@@ -173,12 +194,11 @@ archon verify-response <challenge_did>
 
 Say something like:
 
-> "Good morning. I'm Dr. Alice Chen, I need to access the prenatal records
-> for patient Maria. Can you verify my identity?"
+> "Good morning. I'm Dr. Alice Chen. I need to verify my credentials before
+> accessing patient records for Sofia Martinez."
 
-And I'll respond as Eva (the AI assistant), using the real Archon infrastructure
-behind the scenes.
+And Eva will respond, using the real Archon infrastructure behind the scenes.
 
 ---
 
-*Prepared by Hermes Agent — April 22, 2026*
+*Prepared by GenitriX Agency — April 23, 2026*
